@@ -1,6 +1,5 @@
 const connection = require('../database/connection')
 
-
 module.exports = {
     async index(request, response){
         const { page = 1 } = request.query;
@@ -14,12 +13,10 @@ module.exports = {
             .offset((page - 1)*5)
             .select('incidents.*', 'ongs.name', 'ongs.email', 'ongs.whatsapp', 'ongs.city', 'ongs.uf');
 
-        response.header('X-Total-Count', count['count(*)']) 
+        response.header('X-Total-Count', count['count(*)']);
 
         return response.json(incidents).headers
     },
-
-
 
     async create(request, response){
         const { title, description, value } = request.body;
@@ -48,7 +45,7 @@ module.exports = {
             return response.status(401).json({ error : 'Operation not permitted.' });
         }
 
-        await connection('incidents').where('id', id).delete()
+        await connection('incidents').where('id', id).delete();
             
         return response.status(204).send();
     },
